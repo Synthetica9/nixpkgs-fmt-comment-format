@@ -8,7 +8,7 @@ on:
 jobs:
   format:
     runs-on: ubuntu-latest
-    # if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/format')
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/format')
     steps:
       - uses: peter-evans/create-or-update-comment@v1
         with:
@@ -59,7 +59,7 @@ jobs:
           # https://stackoverflow.com/questions/34257833/git-filter-branch-get-only-changed-files
           git filter-branch --tree-filter 'nixpkgs-fmt $(\
             git show $GIT_COMMIT --name-status | egrep ^[AM] |\
-            grep .nix | cut -f2)' -- ${{ $CURRENT_BASE }}..${{ $PR_BRANCH }}
+            grep .nix | cut -f2)' -- $CURRENT_BASE..$PR_BRANCH
 
           git push --force
 
